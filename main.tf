@@ -28,12 +28,12 @@ resource "google_compute_firewall" "fw" {
 
   allow {
     protocol = "tcp"
-    ports    = ["22"]
+    ports    = ["22", "80", "5001", "5201"]
   }
 
   allow {
-    protocol = "tcp"
-    ports    = ["80"]
+    protocol = "udp"
+    ports    = ["5001", "5201"]
   }
 
   allow {
