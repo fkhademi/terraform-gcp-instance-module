@@ -19,7 +19,7 @@ resource "google_compute_instance" "instance" {
     subnetwork = var.subnet
 
     access_config {
-      nat_ip = var.public_ip ? google_compute_address.default.address : null
+      nat_ip = var.public_ip ? google_compute_address.default[0].address : null
     }
   }
 
