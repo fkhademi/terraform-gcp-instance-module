@@ -50,5 +50,5 @@ resource "google_compute_firewall" "fw" {
   }
 
   source_ranges = ["0.0.0.0/0"]
-  target_tags   = ["allow-ssh"]
+  target_tags   = ["allow-ssh-${var.name}"]
 }
