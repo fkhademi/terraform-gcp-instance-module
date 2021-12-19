@@ -1,3 +1,8 @@
+resource "google_compute_address" "default" {
+  count = var.public_ip ? 1 : 0
+  name  = "${var.name}-ip"
+}
+
 resource "google_compute_instance" "instance" {
   name         = "${var.name}-srv"
   machine_type = var.instance_size
@@ -10,16 +15,20 @@ resource "google_compute_instance" "instance" {
   }
 
   network_interface {
-    network = var.vpc
+    network    = var.vpc
     subnetwork = var.subnet
+
+    access_config {
+      nat_ip = var.public_ip ? google_compute_address.default.address : null
+    }
   }
 
-    metadata_startup_script = "sudo apt-get update && sudo apt-get install iperf -y"
+  metadata_startup_script = "sudo apt-get update && sudo apt-get install iperf3 -y"
 
-    tags = ["allow-ssh"]
-    metadata = {
-        ssh-keys = "ubuntu:${var.ssh_key}"
-    }
+  tags = ["allow-ssh-${var.name}"]
+  metadata = {
+    ssh-keys = "ubuntu:${var.ssh_key}"
+  }
 }
 
 resource "google_compute_firewall" "fw" {
@@ -37,8 +46,8 @@ resource "google_compute_firewall" "fw" {
   }
 
   allow {
-      protocol  = "icmp"
-  } 
+    protocol = "icmp"
+  }
 
   source_ranges = ["0.0.0.0/0"]
   target_tags   = ["allow-ssh"]
