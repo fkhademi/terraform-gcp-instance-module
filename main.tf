@@ -35,9 +35,9 @@ resource "google_compute_firewall" "fw" {
   name    = "allow-all-${var.name}"
   network = var.vpc
 
-  #allow {
+  allow {
   #  protocol = "all"
-  #}
+  }
 
   source_ranges = ["0.0.0.0/0"]
   target_tags   = ["allow-all-${var.name}"]
