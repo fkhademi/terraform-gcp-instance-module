@@ -23,7 +23,7 @@ resource "google_compute_instance" "instance" {
     }
   }
 
-  metadata_startup_script = "sudo apt-get update && sudo apt-get install iperf3 -y"
+  metadata_startup_script = var.cloud_init_data
 
   tags = ["allow-ssh-${var.name}"]
   metadata = {
@@ -32,23 +32,13 @@ resource "google_compute_instance" "instance" {
 }
 
 resource "google_compute_firewall" "fw" {
-  name    = "allow-ssh-${var.name}"
+  name    = "allow-all-${var.name}"
   network = var.vpc
 
   allow {
-    protocol = "tcp"
-    ports    = ["22", "80", "5001", "5201"]
-  }
-
-  allow {
-    protocol = "udp"
-    ports    = ["5001", "5201"]
-  }
-
-  allow {
-    protocol = "icmp"
+    protocol = "all"
   }
 
   source_ranges = ["0.0.0.0/0"]
-  target_tags   = ["allow-ssh-${var.name}"]
+  target_tags   = ["allow-all-${var.name}"]
 }
