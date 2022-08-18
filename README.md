@@ -33,6 +33,7 @@ key | default | value
 instance_size | f1-micro | The size of the GCP VM instance
 zone | b | Availability Zone to deploy the instance in
 public_ip | false | Set to true to assign a public IP to the Instance
+cloud_init_data | | Cloud init data
 
 ### Outputs
 This module will return the following outputs:
