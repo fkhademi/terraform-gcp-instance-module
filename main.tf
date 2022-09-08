@@ -18,8 +18,11 @@ resource "google_compute_instance" "instance" {
     network    = var.vpc
     subnetwork = var.subnet
 
-    access_config {
-      nat_ip = var.public_ip ? google_compute_address.default[0].address : null
+    dynamic "access_config" {
+      for_each = var.public_ip == true ? toset([1]) : toset([])
+      content {
+        nat_ip = google_compute_address.default[0].address
+      }
     }
   }
 
