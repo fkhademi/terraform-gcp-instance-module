@@ -28,7 +28,7 @@ resource "google_compute_instance" "instance" {
 
   metadata_startup_script = var.cloud_init_data
 
-  tags = ["allow-ssh-${var.name}", ${var.tags}]
+  tags = ["allow-ssh-${var.name}", var.tags]
   metadata = {
     ssh-keys = "ubuntu:${var.ssh_key}"
   }
