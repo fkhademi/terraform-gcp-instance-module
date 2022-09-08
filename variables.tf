@@ -43,6 +43,6 @@ variable "cloud_init_data" {
 
 variable "tags" {
   description = "Additional tags in a comma separated list"
-  default     = ""
+  default     = "null"
   type        = string
 }
