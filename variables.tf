@@ -40,3 +40,9 @@ variable "cloud_init_data" {
   default     = ""
   type        = string
 }
+
+variable "tags" {
+  description = "Additional tags in a comma separated list"
+  default     = ""
+  type        = string
+}
